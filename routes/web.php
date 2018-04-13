@@ -19,4 +19,5 @@ Route::get('/login', 'PublicController@login');
 Route::post('/doLogin', 'PublicController@doLogin');
 Route::get('/register', 'PublicController@register');
 Route::post('/doRegister', 'PublicController@doRegister');
+Route::post('/logout', 'PublicController@logout');
 

@@ -36,30 +36,30 @@
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
                     <!-- Authentication Links -->
-                    @guest
-                        <li><a class="nav-link" href="{{url('login')}}">{{ __('Login') }}</a></li>
-                        <li><a class="nav-link" href="{{url('register')}}">{{ __('Register') }}</a></li>
-                    @else
+                    @if (session('loginUserInfo'))
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                <span class="caret"></span>
+                                <span class="caret">{{session('loginUserInfo.name')}}</span>
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                <a class="dropdown-item" href="{{url('logout')}}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
 
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                <form id="logout-form" action="{{url('logout')}}" method="POST"
                                       style="display: none;">
                                     {{csrf_field()}}
                                 </form>
                             </div>
                         </li>
-                    @endguest
+                    @else
+                        <li><a class="nav-link" href="{{url('login')}}">{{ __('Login') }}</a></li>
+                        <li><a class="nav-link" href="{{url('register')}}">{{ __('Register') }}</a></li>
+                    @endif
                 </ul>
             </div>
         </div>
