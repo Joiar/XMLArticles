@@ -14,6 +14,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('style')
 </head>
 <body>
 <div id="app">
@@ -28,19 +29,18 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <!-- Left Side Of Navbar -->
-                <ul class="navbar-nav mr-auto">
-
-                </ul>
-
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
+                    <form class="form-inline my-2 my-lg-0 mr-4">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+                    </form>
                     <!-- Authentication Links -->
                     @if (session('loginUserInfo'))
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                <span class="caret">{{session('loginUserInfo.name')}}</span>
+                                <span class="caret">{{session('loginUserInfo')->name}}</span>
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -65,16 +65,26 @@
         </div>
     </nav>
 
-    <main class="py">
+    <main class="pb-4 mb-5">
         @yield('content')
     </main>
+
+    <footer class="py-3 border-top fixed-bottom bg-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6"></div>
+                <div class="col-md-6 text-right text-secondary">
+                    <span>Copyright © 2018 {{ config('app.name', 'Laravel') }}. All Rights Reserved.</span>
+                </div>
+            </div>
+        </div>
+    </footer>
 </div>
 
 <!-- Scripts -->
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-{{--<script src="{{ asset('js/app.js') }}" defer></script>--}}
 @yield('script')
 </body>
 </html>

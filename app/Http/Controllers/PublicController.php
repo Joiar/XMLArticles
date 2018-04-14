@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Subscriber;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redirect;
 
 class PublicController extends Controller
@@ -26,7 +27,13 @@ class PublicController extends Controller
         return view('register');
     }
 
-    public function doLogin(Request $request) {
+    /**
+     * doLogin
+     * @param Request $request
+     * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
+    public function doLogin(Request $request)
+    {
         self::validate($request, [
             'email' => 'required|string|email|max:255',
             'password' => 'required|string|min:6',
@@ -37,7 +44,8 @@ class PublicController extends Controller
                 $user = Subscriber::find($userInfo->email);
                 $user->lastlogin = date('Y-m-d H:i:s', time());
                 $user->save();
-                $request->session()->put('loginUserInfo', $userInfo);
+                $sessionData = DB::table('subscriber')->select('email', 'name', 'lastlogin')->where(['email' => $request->email])->first();
+                $request->session()->put('loginUserInfo', $sessionData);
                 return Redirect('/');
             } else {
                 return Redirect('/login')->with('message', 'Password error.')->withInput();
@@ -47,12 +55,35 @@ class PublicController extends Controller
         }
     }
 
+    /**
+     * autoLogin
+     * @param $email
+     * @param $password
+     * @return bool
+     */
     public function autoLogin($email, $password)
     {
         $userInfo = Subscriber::where(['email' => $email])->first();
-        dd($userInfo);
+        if ($userInfo) {
+            if (password_verify($password, $userInfo->password)) {
+                $user = Subscriber::find($userInfo->email);
+                $user->lastlogin = date('Y-m-d H:i:s', time());
+                $user->save();
+                session(['loginUserInfo' => $userInfo]);
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
     }
 
+    /**
+     * doRegister
+     * @param Request $request
+     * @return $this|\Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function doRegister(Request $request)
     {
         self::validate($request, [
@@ -69,12 +100,22 @@ class PublicController extends Controller
         $subscriber->admin = 0;
         $insertRes = $subscriber->save();
         if ($insertRes) {
-            self::autoLogin($request->email, $request->password);
+            $loginRes = self::autoLogin($request->email, $request->password);
+            if ($loginRes) {
+                return Redirect('/');
+            } else {
+                return Redirect('/login')->with('message', 'Network error,please try again.')->withInput();
+            }
         } else {
             return Redirect('/register')->with('message', 'Register fail.')->withInput();
         }
     }
 
+    /**
+     * logout
+     * @param Request $request
+     * @return \Illuminate\Http\RedirectResponse|\Illuminate\Routing\Redirector
+     */
     public function logout(Request $request)
     {
         $request->session()->forget('loginUserInfo');

@@ -11,7 +11,8 @@
 |
 */
 
-Route::get('/', 'HomeController@index');
+Route::get('/{category?}', 'HomeController@index');
+Route::get('/detail/{id}', 'HomeController@detail');
 
 
 // Login && Register
@@ -20,4 +21,11 @@ Route::post('/doLogin', 'PublicController@doLogin');
 Route::get('/register', 'PublicController@register');
 Route::post('/doRegister', 'PublicController@doRegister');
 Route::post('/logout', 'PublicController@logout');
+
+// Article
+Route::get('/article/add', 'ArticleController@add');
+Route::post('/article/doAdd', 'ArticleController@doAdd');
+Route::get('/article/doDelete/{id}', 'ArticleController@doDelete');
+Route::get('/article/edit/{id}', 'ArticleController@edit');
+Route::post('/article/doEdit', 'ArticleController@doEdit');
 
