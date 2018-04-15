@@ -31,8 +31,8 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
-                    <form class="form-inline my-2 my-lg-0 mr-4">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <form class="form-inline my-2 my-lg-0 mr-4" action="{{url('/search')}}">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="keywords" id="keywords">
                         <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
                     </form>
                     <!-- Authentication Links -->

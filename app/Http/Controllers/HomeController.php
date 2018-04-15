@@ -47,7 +47,23 @@ class HomeController extends Controller
     {
         $pagedata['articleDetail'] = Article::findOrFail($id);
         $pagedata['articleDetail']->author = Subscriber::where('email', $pagedata['articleDetail']->subscriberID)->first()->name;
-        $pagedata['isSelf'] = $pagedata['articleDetail']->subscriberID == session('loginUserInfo')->email ? true : false;
+        $pagedata['isSelf'] = false;
+        if (session('loginUserInfo') && $pagedata['articleDetail']->subscriberID == session('loginUserInfo')->email) {
+            $pagedata['isSelf'] = true;
+        }
         return view('detail', $pagedata);
+    }
+
+    /**
+     * search
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function search(Request $request)
+    {
+        $keywords = $request->keywords;
+        $pagedata['keywords'] = $keywords;
+        $pagedata['articleList'] = Article::where('title', 'like', "%$keywords%")->orWhere('body', 'like', "%$keywords%")->paginate(10);
+        return view('search', $pagedata);
     }
 }
