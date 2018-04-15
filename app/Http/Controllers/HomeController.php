@@ -26,7 +26,7 @@ class HomeController extends Controller
      */
     public function index($category = null)
     {
-        $pagedata['currentTab'] = '';
+        $pagedata['currentTab'] = '/';
         if ($category) {
             $pagedata['articleList'] = Article::where('category', $category)->paginate(10);
             $pagedata['currentTab'] = $category;

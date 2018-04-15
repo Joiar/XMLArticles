@@ -11,7 +11,8 @@
 |
 */
 
-Route::get('/{category?}', 'HomeController@index');
+Route::get('/', 'HomeController@index');
+Route::get('/category/{category?}', 'HomeController@index');
 Route::get('/detail/{id}', 'HomeController@detail');
 
 

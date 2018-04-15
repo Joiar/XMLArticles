@@ -43,8 +43,9 @@
                     <div class="card-header">Category list</div>
                     <div class="card-body p-0">
                         <div class="list-group list-group-flush">
+                            <a href="{{url('/')}}" class="list-group-item list-group-item-action @if($currentTab == '/') active @endif">All</a>
                             @foreach($categoryList as $catehory)
-                                <a href='{{url("/$catehory")}}'
+                                <a href='{{url("/category/$catehory")}}'
                                    class="list-group-item list-group-item-action @if($currentTab == $catehory) active @endif">
                                     {{$catehory}}
                                 </a>
