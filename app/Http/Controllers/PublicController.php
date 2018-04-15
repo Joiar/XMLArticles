@@ -69,7 +69,8 @@ class PublicController extends Controller
                 $user = Subscriber::find($userInfo->email);
                 $user->lastlogin = date('Y-m-d H:i:s', time());
                 $user->save();
-                session(['loginUserInfo' => $userInfo]);
+                $sessionData = DB::table('subscriber')->select('email', 'name', 'lastlogin')->where(['email' => $email])->first();
+                session(['loginUserInfo' => $sessionData]);
                 return true;
             } else {
                 return false;

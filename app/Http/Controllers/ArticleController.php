@@ -32,7 +32,7 @@ class ArticleController extends Controller
 
         self::validate($request, [
             'title' => 'required|string|max:255',
-            'link' => 'required|string|url',
+            'link' => 'required|string|url|unique:article',
             'category' => 'required|string',
             'body' => 'required|string',
         ]);

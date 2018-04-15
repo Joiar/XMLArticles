@@ -1,13 +1,13 @@
 @extends('master')
 
-@section('style')
-    <link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">
-    <style>
-        .hidden {
-            display: none;
-        }
-    </style>
-@endsection
+{{--@section('style')--}}
+    {{--<link href="http://cdnjs.cloudflare.com/ajax/libs/summernote/0.8.9/summernote.css" rel="stylesheet">--}}
+    {{--<style>--}}
+        {{--.hidden {--}}
+            {{--display: none;--}}
+        {{--}--}}
+    {{--</style>--}}
+{{--@endsection--}}
 
 @section('content')
     <div class="container mt-4 bg-white p-4">
@@ -32,7 +32,7 @@
             </div>
             <div class="form-group">
                 <label for="body">Body</label>
-                <textarea class="hidden" name="body" id="body">{{$articleData->body}}</textarea>
+                <textarea class="form-control" name="body" id="body" rows="4">{{$articleData->body}}</textarea>
             </div>
             {{csrf_field()}}
             <button type="submit" class="btn btn-primary">Submit</button>
@@ -40,11 +40,11 @@
     </div>
 @endsection
 
-@section('script')
-    <script src="https://cdn.ckeditor.com/4.9.1/standard/ckeditor.js"></script>
-    <script>
-        $(function () {
-            CKEDITOR.replace( 'body' );
-        });
-    </script>
-@endsection
+{{--@section('script')--}}
+    {{--<script src="https://cdn.ckeditor.com/4.9.1/standard/ckeditor.js"></script>--}}
+    {{--<script>--}}
+        {{--$(function () {--}}
+            {{--CKEDITOR.replace( 'body' );--}}
+        {{--});--}}
+    {{--</script>--}}
+{{--@endsection--}}
