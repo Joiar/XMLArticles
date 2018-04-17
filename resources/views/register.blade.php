@@ -2,13 +2,18 @@
 
 @section('content')
     <div class="container py-4">
+        @if (session('message'))
+            <div class="alert alert-danger">
+                {{ session('message') }}
+            </div>
+        @endif
         <div class="row justify-content-center">
             <div class="col-md-8">
                 <div class="card">
                     <div class="card-header">{{ __('Register') }}</div>
 
                     <div class="card-body">
-                        <form id="register-form">
+                        <form method="post" action="{{url('doRegister')}}">
                             {{csrf_field()}}
 
                             <div class="form-group row">
@@ -63,7 +68,7 @@
 
                             <div class="form-group row mb-0">
                                 <div class="col-md-6 offset-md-4">
-                                    <button id="confirm-btn" type="button" class="btn btn-primary">
+                                    <button type="submit" class="btn btn-primary">
                                         {{ __('Register') }}
                                     </button>
                                 </div>
@@ -74,20 +79,4 @@
             </div>
         </div>
     </div>
-@endsection
-
-@section('script')
-    <script>
-        $('#confirm-btn').click(function () {
-            $.ajax();
-            $.post(
-                "{{url('doRegister')}}",
-                $('#register-form').serialize(),
-                function (res) {
-                    console.log(res);
-                },
-                'json'
-            );
-        });
-    </script>
 @endsection

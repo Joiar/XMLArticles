@@ -14,6 +14,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    @yield('style')
 </head>
 <body>
 <div id="app">
@@ -28,53 +29,62 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                <!-- Left Side Of Navbar -->
-                <ul class="navbar-nav mr-auto">
-
-                </ul>
-
                 <!-- Right Side Of Navbar -->
                 <ul class="navbar-nav ml-auto">
+                    <form class="form-inline my-2 my-lg-0 mr-4" action="{{url('/search')}}">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="keywords" id="keywords">
+                        <button class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+                    </form>
                     <!-- Authentication Links -->
-                    @guest
-                        <li><a class="nav-link" href="{{url('login')}}">{{ __('Login') }}</a></li>
-                        <li><a class="nav-link" href="{{url('register')}}">{{ __('Register') }}</a></li>
-                    @else
+                    @if (session('loginUserInfo'))
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button"
                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                <span class="caret"></span>
+                                <span class="caret">{{session('loginUserInfo')->name}}</span>
                             </a>
 
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}"
+                                <a class="dropdown-item" href="{{url('logout')}}"
                                    onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                     {{ __('Logout') }}
                                 </a>
 
-                                <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                <form id="logout-form" action="{{url('logout')}}" method="POST"
                                       style="display: none;">
                                     {{csrf_field()}}
                                 </form>
                             </div>
                         </li>
-                    @endguest
+                    @else
+                        <li><a class="nav-link" href="{{url('login')}}">{{ __('Login') }}</a></li>
+                        <li><a class="nav-link" href="{{url('register')}}">{{ __('Register') }}</a></li>
+                    @endif
                 </ul>
             </div>
         </div>
     </nav>
 
-    <main class="py">
+    <main class="pb-4 mb-5">
         @yield('content')
     </main>
+
+    <footer class="py-3 border-top fixed-bottom bg-white">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6"></div>
+                <div class="col-md-6 text-right text-secondary">
+                    <span>Copyright © 2018 {{ config('app.name', 'Laravel') }}. All Rights Reserved.</span>
+                </div>
+            </div>
+        </div>
+    </footer>
 </div>
 
 <!-- Scripts -->
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js"></script>
 <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-{{--<script src="{{ asset('js/app.js') }}" defer></script>--}}
 @yield('script')
 </body>
 </html>
